@@ -8,7 +8,7 @@
 #define release_threshold_default 3 // default = 6
 #define button1Pin 48
 #define LED_PIN 38
-#define chipSelect 7
+#define chipSelect 4
 #define MAX_BUFFER_TIME 60000 // max time in milliseconds to wait between writing to SD card
 #define ENABLE_DEBUG false
 #define LOG_LOOP_TIME false
