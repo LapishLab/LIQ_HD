@@ -9,6 +9,7 @@ Then run: python server.py
 
 import asyncio
 import websockets
+from websockets import serve          
 import os
 from datetime import datetime
 
@@ -21,7 +22,7 @@ DATA_FOLDER = "./received_data"
 os.makedirs(DATA_FOLDER, exist_ok=True)
 
 
-async def handle_client(websocket, path):
+async def handle_client(websocket):
     """Handle incoming websocket connection from ESP32."""
     remote_addr = websocket.remote_address
     print(f"[{datetime.now()}] Client connected: {remote_addr}")
@@ -57,7 +58,7 @@ async def main():
     print(f"Starting WebSocket server on ws://{HOST}:{PORT}")
     print(f"Data will be saved to: {os.path.abspath(DATA_FOLDER)}")
     
-    async with websockets.serve(handle_client, HOST, PORT):
+    async with serve(handle_client, HOST, PORT):
         print("Server is running. Waiting for connections...")
         await asyncio.Future()  # run forever
 
