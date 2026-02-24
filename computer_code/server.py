@@ -1,4 +1,4 @@
-#!/home/dave/Documents/GitHub/LIQ_HD/computer_code/vev_web/bin/ python
+#!C:\Users\lapishla\Documents\GitHub\LIQ_HD\computer_code\venv\Scripts\ python.exe
 """
 Websocket server to receive touch sensor data from ESP32.
 Saves received CSV data to a file.

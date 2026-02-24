@@ -7,6 +7,27 @@ import ubinascii
 
 
 
+def list_available_ssids():
+    """Scan and print all available Wi-Fi SSIDs."""
+    sta = network.WLAN(network.STA_IF)
+    sta.active(True)
+    print("Scanning for available networks...")
+    try:
+        networks = sta.scan()
+    except Exception as e:
+        print(f"ERROR: failed to scan networks: {e}")
+        return
+
+    if not networks:
+        print("No networks found.")
+        return
+
+    for net in networks:
+        # scan() returns tuples like (ssid, bssid, channel, RSSI, authmode, hidden)
+        ssid = net[0].decode() if isinstance(net[0], bytes) else str(net[0])
+        print("  ", ssid)
+
+
 def connect_to_hotspot(HOTSPOT_SSID, HOTSPOT_PASSWORD, WIFI_CONNECT_TIMEOUT_S):
     sta = network.WLAN(network.STA_IF)
     ap  = network.WLAN(network.AP_IF)
@@ -18,12 +39,14 @@ def connect_to_hotspot(HOTSPOT_SSID, HOTSPOT_PASSWORD, WIFI_CONNECT_TIMEOUT_S):
 
     if not sta.isconnected():
         print("Connecting to hotspot:", HOTSPOT_SSID)
-        sta.connect(HOTSPOT_SSID, HOTSPOT_PASSWORD)
+        sta.connect(HOTSPOT_SSID)
 
         start = time.ticks_ms()
         while not sta.isconnected():
             if time.ticks_diff(time.ticks_ms(), start) > WIFI_CONNECT_TIMEOUT_S * 1000:
                 print("ERROR: Hotspot connection timed out.")
+                # Show available SSIDs to help with debugging
+                list_available_ssids()
                 return None
             time.sleep_ms(250)
 
