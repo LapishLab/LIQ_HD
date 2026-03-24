@@ -7,18 +7,26 @@ import time
 # HTTP POST
 
 def connect_tcp(SERVER_HOST,SERVER_PORT):
-    addr_info = socket.getaddrinfo(SERVER_HOST, SERVER_PORT)[0][-1]
-    s = socket.socket()
-    s.settimeout(5) # avoid hanging forever
+    print("Starting TCP connection attempts to {}:{}".format(SERVER_HOST, SERVER_PORT))
     try:
-        print(f"Attempting connection to {SERVER_HOST}:{SERVER_PORT}")
-        s.connect(addr_info)
-        print("TCP connection successful")
-        return s
+        addr_info = socket.getaddrinfo(SERVER_HOST, SERVER_PORT)[0][-1]
     except Exception as e:
-        print("TCP connection failed:", e)
-        s.close()
+        print("Failed to resolve address {}:{}: {}".format(SERVER_HOST, SERVER_PORT, e))
         return None
+    for attempt in range(5):
+        s = socket.socket()
+        s.settimeout(4)
+        try:
+            print("Attempting connection to {}:{} (attempt {})".format(SERVER_HOST, SERVER_PORT, attempt+1))
+            s.connect(addr_info)
+            print("TCP connection successful")
+            return s
+        except Exception as e:
+            print("TCP connection failed on attempt {}: {}".format(attempt+1, e))
+            s.close()
+            if attempt < 4:   # Don't sleep after the last attempt
+                time.sleep(1)
+    return None
 
 def send_data(sock, data):
     # try:
