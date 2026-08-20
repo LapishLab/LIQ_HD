@@ -27,10 +27,10 @@ DATA_FOLDER = "/data"
 SAMPLE_PERIOD_MS = 10
 
 # WIFI info
-# WIFI_SSID = "TP"
-# WIFI_PASSWORD = ""
-WIFI_SSID = "Short"
-WIFI_PASSWORD = "Baylor11"
+WIFI_SSID = "TP"
+WIFI_PASSWORD = "BIGquestionsdeepanswers!"
+# WIFI_SSID = "Short"
+# WIFI_PASSWORD = "Baylor11"
 
 TCP_SERVER_HOST = "10.247.178.229"
 TCP_SERVER_PORT = 5000
