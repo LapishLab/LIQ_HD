@@ -70,6 +70,7 @@ def send_file(sock: socket.socket, file_path: str, chunk_size: int = 1024) -> bo
                     print("Failed sending chunk:", e)
                     return False
                 sent += len(chunk)
+        sock.sendall(b"\n EOF\n")  # Indicate end of file transfer 
         print("Finished sending file {} ({} bytes)".format(file_path, sent))
         return True
     except Exception as e:
